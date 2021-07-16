@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-15 21:58+0000\n"
+"POT-Creation-Date: 2021-07-16 22:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: example/templates/ejemplo.html:15
 msgid "My name"
-msgstr "Mi nombre"
+msgstr ""
 
 #: example/templates/ejemplo.html:16
 msgid "age"
@@ -32,8 +32,8 @@ msgstr ""
 
 #: example/templates/ejemplo.html:23
 msgid "olalalal"
-msgstr "perro"
+msgstr ""
 
 #: example/views.py:26
 msgid "Hello"
-msgstr "Hola"
+msgstr ""

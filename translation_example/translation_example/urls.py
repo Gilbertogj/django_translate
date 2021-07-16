@@ -17,7 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 
+from django.conf.urls.i18n import i18n_patterns 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("example/",include(("example.urls", "example") )),
 ]
+
+# urlpatterns += i18n_patterns (
+#     path("example/",include(("example.urls", "example") )),
+#     prefix_default_language = False,
+# )
