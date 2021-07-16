@@ -1,11 +1,9 @@
 import codecs
 import datetime
 import locale
-import warnings
 from decimal import Decimal
 from urllib.parse import quote
 
-from django.utils.deprecation import RemovedInDjango40Warning
 from django.utils.functional import Promise
 
 
@@ -18,7 +16,7 @@ class DjangoUnicodeDecodeError(UnicodeDecodeError):
         return '%s. You passed in %r (%s)' % (super().__str__(), self.obj, type(self.obj))
 
 
-def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
+[docs]def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
     """
     Return a string representing 's'. Treat bytestrings using the 'encoding'
     codec.
@@ -31,12 +29,13 @@ def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
     return force_str(s, encoding, strings_only, errors)
 
 
+
 _PROTECTED_TYPES = (
     type(None), int, float, Decimal, datetime.datetime, datetime.date, datetime.time,
 )
 
 
-def is_protected_type(obj):
+[docs]def is_protected_type(obj):
     """Determine if the object instance is of a protected type.
 
     Objects of protected types are preserved as-is when passed to
@@ -45,7 +44,8 @@ def is_protected_type(obj):
     return isinstance(obj, _PROTECTED_TYPES)
 
 
-def force_str(s, encoding='utf-8', strings_only=False, errors='strict'):
+
+[docs]def force_str(s, encoding='utf-8', strings_only=False, errors='strict'):
     """
     Similar to smart_str(), except that lazy instances are resolved to
     strings, rather than kept as lazy objects.
@@ -67,7 +67,8 @@ def force_str(s, encoding='utf-8', strings_only=False, errors='strict'):
     return s
 
 
-def smart_bytes(s, encoding='utf-8', strings_only=False, errors='strict'):
+
+[docs]def smart_bytes(s, encoding='utf-8', strings_only=False, errors='strict'):
     """
     Return a bytestring version of 's', encoded as specified in 'encoding'.
 
@@ -79,7 +80,8 @@ def smart_bytes(s, encoding='utf-8', strings_only=False, errors='strict'):
     return force_bytes(s, encoding, strings_only, errors)
 
 
-def force_bytes(s, encoding='utf-8', strings_only=False, errors='strict'):
+
+[docs]def force_bytes(s, encoding='utf-8', strings_only=False, errors='strict'):
     """
     Similar to smart_bytes, except that lazy instances are resolved to
     strings, rather than kept as lazy objects.
@@ -99,23 +101,8 @@ def force_bytes(s, encoding='utf-8', strings_only=False, errors='strict'):
     return str(s).encode(encoding, errors)
 
 
-def smart_text(s, encoding='utf-8', strings_only=False, errors='strict'):
-    warnings.warn(
-        'smart_text() is deprecated in favor of smart_str().',
-        RemovedInDjango40Warning, stacklevel=2,
-    )
-    return smart_str(s, encoding, strings_only, errors)
 
-
-def force_text(s, encoding='utf-8', strings_only=False, errors='strict'):
-    warnings.warn(
-        'force_text() is deprecated in favor of force_str().',
-        RemovedInDjango40Warning, stacklevel=2,
-    )
-    return force_str(s, encoding, strings_only, errors)
-
-
-def iri_to_uri(iri):
+[docs]def iri_to_uri(iri):
     """
     Convert an Internationalized Resource Identifier (IRI) portion to a URI
     portion that is suitable for inclusion in a URL.
@@ -147,6 +134,7 @@ def iri_to_uri(iri):
     return quote(iri, safe="/#%[]=:;$&()+,!?*@'~")
 
 
+
 # List of byte values that uri_to_iri() decodes from percent encoding.
 # First, the unreserved characters from RFC 3986:
 _ascii_ranges = [[45, 46, 95, 126], range(65, 91), range(97, 123)]
@@ -165,7 +153,7 @@ _hextobyte.update({
 })
 
 
-def uri_to_iri(uri):
+[docs]def uri_to_iri(uri):
     """
     Convert a Uniform Resource Identifier(URI) into an Internationalized
     Resource Identifier(IRI).
@@ -178,7 +166,7 @@ def uri_to_iri(uri):
     if uri is None:
         return uri
     uri = force_bytes(uri)
-    # Fast selective unqote: First, split on '%' and then starting with the
+    # Fast selective unquote: First, split on '%' and then starting with the
     # second block, decode the first 2 bytes if they represent a hex code to
     # decode. The rest of the block is the part after '%AB', not containing
     # any '%'. Add that to the output without further processing.
@@ -201,7 +189,8 @@ def uri_to_iri(uri):
     return repercent_broken_unicode(iri).decode()
 
 
-def escape_uri_path(path):
+
+[docs]def escape_uri_path(path):
     """
     Escape the unsafe characters from the path portion of a Uniform Resource
     Identifier (URI).
@@ -216,6 +205,7 @@ def escape_uri_path(path):
     # The reason for not subtracting and escaping "/" is that we are escaping
     # the entire path, not a path segment.
     return quote(path, safe="/:@&+$,-_.!~*'()")
+
 
 
 def punycode(domain):
@@ -241,7 +231,7 @@ def repercent_broken_unicode(path):
             return path
 
 
-def filepath_to_uri(path):
+[docs]def filepath_to_uri(path):
     """Convert a file system path to a URI portion that is suitable for
     inclusion in a URL.
 
@@ -254,6 +244,7 @@ def filepath_to_uri(path):
     # I know about `os.sep` and `os.altsep` but I want to leave
     # some flexibility for hardcoding separators.
     return quote(str(path).replace("\\", "/"), safe="/~!*()'")
+
 
 
 def get_system_encoding():
